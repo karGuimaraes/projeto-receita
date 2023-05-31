@@ -1,0 +1,511 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Laravel de teste",
+        "description": "API Laravel de teste",
+        "contact": {
+            "name": "Karine",
+            "email": "karsguimaraes@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:{porta}/api/",
+            "description": "Servidor de desenvolvimento",
+            "variables": {
+                "porta": {
+                    "enum": [
+                        "8000",
+                        "8001"
+                    ],
+                    "default": "8000"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/receitas/ingrediente/": {
+            "get": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Listar objetos",
+                "operationId": "listarIngredientes",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Página",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "nome",
+                        "in": "query",
+                        "description": "Ingrediente",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de objetos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ingrediente"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Cadastrar objeto",
+                "operationId": "cadastrarIngrediente",
+                "requestBody": {
+                    "description": "Informar dados do objeto",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ingrediente"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Objeto criado com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/receitas/ingrediente/{id}/": {
+            "get": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Exibir objeto",
+                "operationId": "exibirIngredientes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Código do objeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do objeto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ingrediente"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Atualizar objeto",
+                "operationId": "atualizarIngrediente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Código do objeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Informar dados do objeto",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ingrediente"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Objeto atualizado com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Excluir objeto",
+                "operationId": "excluirIngrediente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Código do objeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Objeto excluído com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/receitas/ingrediente/{id}/restore/": {
+            "put": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Restaurar objeto excluído",
+                "operationId": "restaurarIngrediente",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Código do objeto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Objeto restaurado com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/receitas/tipo-receitas/": {
+            "get": {
+                "tags": [
+                    "receitas"
+                ],
+                "summary": "Listar objetos",
+                "operationId": "listarTipoReceitas",
+                "parameters": [
+                    {
+                        "name": "descricao",
+                        "in": "query",
+                        "description": "Tipo de receita",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de objetos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TipoReceita"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/user/login/": {
+            "get": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Login",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "E-mail",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Senha",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Token gerado com sucesso"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/user/sign/": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Cadastrar usuário",
+                "operationId": "cadastrarUsuario",
+                "requestBody": {
+                    "description": "Informar dados do objeto",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Objeto criado com sucesso"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/user/logout/": {
+            "get": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "Deslogar o usuário",
+                "operationId": "logout",
+                "responses": {
+                    "204": {
+                        "description": "Logout efetuado com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        },
+        "/user/refresh/": {
+            "get": {
+                "tags": [
+                    "login"
+                ],
+                "summary": "atualizar token do usuário",
+                "operationId": "refresh",
+                "responses": {
+                    "200": {
+                        "description": "Token gerado com sucesso"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/UnexpectedError"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Ingrediente": {
+                "title": "Ingredientes",
+                "required": [
+                    "nome"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "nome": {
+                        "type": "string",
+                        "example": "ovo"
+                    }
+                },
+                "type": "object"
+            },
+            "TipoReceita": {
+                "title": "Tipo Receitas",
+                "required": [
+                    "descricao"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "descricao": {
+                        "type": "string",
+                        "example": "Lanche"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "users",
+                "required": [
+                    "name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Nome do usuário"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "teste@teste.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "Senha"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "UnauthorizedError": {
+                "description": "Token de acesso não encontrado ou inválido",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "status": "error",
+                            "message": "Token not found."
+                        }
+                    }
+                }
+            },
+            "UnexpectedError": {
+                "description": "Erro inesperado",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "status": "error",
+                            "message": "An exception occurred while executing a query: [...]"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "JWT": {
+                "type": "http",
+                "name": "JWT",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": [
+        {
+            "JWT": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "receitas",
+            "description": "Receitas"
+        },
+        {
+            "name": "receitas",
+            "description": "Receitas"
+        },
+        {
+            "name": "login",
+            "description": "Login"
+        }
+    ]
+}
